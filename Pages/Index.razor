@@ -1,0 +1,58 @@
+﻿@page "/"
+@using AmountToWordsHelper
+@using NumericWordsConversion
+<h1>Amount To Words</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Amount</label>
+            <input type="number" class="form-control" name="amount" @bind="amount" @onkeydown="ConvertToWords" maxlength="27" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>.</label>
+            <input class="btn btn-dark btn-block" type="button" value="Convert To Words" name="button" @onclick="ConvertToWords" />
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>English Culture</label>
+            <textarea class="form-control" name="words" rows="1">@words</textarea>
+        </div>
+        <div class="form-group">
+            <label>Unicode Words</label>
+            <textarea class="form-control" name="words" rows="1">@unicode</textarea>
+        </div>
+        <div class="form-group">
+            <label>Nepali Words</label>
+            <textarea class="form-control" name="words" rows="1">@nepali</textarea>
+        </div>
+        <div class="form-group">
+            <label>Devnagari Words</label>
+            <textarea class="form-control preeti" name="words" rows="1">@devnagari</textarea>
+        </div>
+    </div>
+</div>
+<input class="btn btn-outline-dark btn-block" type="button" value="Convert To Words" name="button" @onclick="ConvertToWords" />
+
+@code {
+    private decimal amount { get; set; }
+    private string nepali { get; set; }
+    private string words { get; set; }
+    private string unicode { get; set; }
+    private string devnagari { get; set; }
+
+
+    private void ConvertToWords()
+    {
+        words = amount.ToCurrencyWords();
+        unicode = amount.ToNumericWords();
+        nepali = amount.ToWords(AmountToWords.Culture.Nepali, AmountToWords.OutputFormat.English);
+        devnagari = amount.ToWords(AmountToWords.Culture.Nepali, AmountToWords.OutputFormat.Devnagari);
+    }
+}
